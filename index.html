@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda del Tesoro 💘</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8cdda, #f88baf);
+      color: #333;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      transition: opacity 0.5s ease;
+      z-index: 10;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      background-color: #ff69b4;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #e553a4;
+    }
+
+    .hearts {
+      font-size: 2rem;
+      animation: float 1.5s infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 50%;
+      animation: fall 2s linear forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-50px) scale(1); opacity: 1; }
+      100% { transform: translateY(100vh) scale(0.3); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="content">
+    <h1>Ya sabés que esto iba a pasar...</h1>
+    <p>Pero no sabés <strong>cómo</strong> va a pasar. ¿Jugamos?</p>
+    <button onclick="nextStep()">Dame la primera pista</button>
+  </div>
+
+  <script>
+    let step = 0;
+    let siButtonSize = 1;
+
+    const steps = [
+      {
+        title: "Pista 1",
+        text: "¿Quién me hace sonreír como un Bobo? (Spoiler: estás leyendo esto en su Telefono)",
+        button: "Siguiente pista"
+      },
+      {
+        title: "Pista 2",
+        text: "¿Quién me hace pensar en el futuro sin miedo y con emoción? (Pista: tiene los mejores ojos del universo observable)",
+        button: "Siguiente pista"
+      },
+      {
+        title: "Pista 3",
+        text: "¿Quién está tan loco para hacer una página solo para este momento? (Pista: El tontolón con el que estás en una cita)",
+        button: "Estoy lista para la verdad"
+      },
+      {
+        title: "Este es el momento",
+        text: "Sí, ya sabías. Pero quiero hacer esto oficial.\n\n💖 Ahora Habla Mati 💖",
+        button: "Continuar"
+      },
+      {
+        title: "Respuesta Final",
+        text: "¿HMMMMmmmmmmMMMMmmmm? 💖",
+        final: true
+      }
+    ];
+
+    function nextStep() {
+      const container = document.getElementById('content');
+      container.classList.add('fade-out');
+
+      setTimeout(() => {
+        step++;
+        const current = steps[step - 1];
+
+        if (current.final) {
+          container.innerHTML = `
+            <h1>${current.title}</h1>
+            <p>${current.text.replace(/\n/g, '<br>')}</p>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+              <button id="yesBtn" onclick="aceptar()">Sí 💘</button>
+              <button onclick="agrandarSi()">No 🙈</button>
+            </div>
+            <div class="hearts">❤️❤️❤️</div>
+          `;
+        } else {
+          container.innerHTML = `
+            <h1>${current.title}</h1>
+            <p>${current.text.replace(/\n/g, '<br>')}</p>
+            <button onclick="nextStep()">${current.button}</button>
+          `;
+        }
+        container.classList.remove('fade-out');
+      }, 500);
+    }
+
+    function agrandarSi() {
+      const btn = document.getElementById('yesBtn');
+      siButtonSize += 0.2;
+      if (siButtonSize <= 2.5) {
+        btn.style.transform = `scale(${siButtonSize})`;
+      }
+    }
+
+    function aceptar() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = ['red', 'pink', 'hotpink', 'deeppink'][Math.floor(Math.random() * 4)];
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+  </script>
+</body>
+</html>
